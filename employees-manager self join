@@ -1,0 +1,12 @@
+ ## SQL query to identify all employees who earn more than their direct managers. The result should include the employee's ID and name.
+SELECT 
+emptbl.employee_id, 
+emptbl.name, 
+emptbl.salary, 
+emptbl.manager_id,
+mgr.name AS manager,
+mgr.salary AS manager_salary 
+FROM employee AS mgr
+INNER JOIN employee AS emptbl
+ON emptbl.manager_id = mgr.employee_id
+WHERE emptbl.salary > mgr.salarY;
