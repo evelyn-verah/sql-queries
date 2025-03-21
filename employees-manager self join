@@ -1,4 +1,4 @@
- ## SQL query to identify all employees who earn more than their direct managers. The result should include the employee's ID and name.
+## SQL query to identify all employees who earn more than their direct managers. The result should include the employee's ID and name.
 SELECT 
 emptbl.employee_id, 
 emptbl.name, 
@@ -9,4 +9,16 @@ mgr.salary AS manager_salary
 FROM employee AS mgr
 INNER JOIN employee AS emptbl
 ON emptbl.manager_id = mgr.employee_id
-WHERE emptbl.salary > mgr.salarY;
+WHERE emptbl.salary > mgr.salary;
+
+
+##Suppose you have a table "employees" and you want to find all employees and their immediate supervisors
+#Self join to match employee_id to supervisor_id
+
+WITH Supervisors AS (
+    SELECT e.employee_id, e.employee_name, s.supervisor_name
+    FROM employees e
+    LEFT JOIN employees s ON e.supervisor_id = s.employee_id
+)
+SELECT employee_id, employee_name, supervisor_name
+FROM Supervisors;
