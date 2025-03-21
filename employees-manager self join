@@ -22,3 +22,5 @@ WITH Supervisors AS (
 )
 SELECT employee_id, employee_name, supervisor_name
 FROM Supervisors;
+
+#In this example, there's no "supervisor name" in the table, but we have employee_id and supervisor_id, by self joining, we 
