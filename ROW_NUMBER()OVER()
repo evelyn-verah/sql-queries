@@ -1,0 +1,50 @@
+-- Window functions
+-- USE CASE: Provide order to a column by providing numerical order
+-- Syntax
+SELECT ROW_NUMBER() OVER(
+PARTITION BY (Optional) -- this is grouping rows together based on values in a particular column. e.g PARTITION BY CITY groups cities together and assigns a ROW NUMBER FOR EACH CITY PER PARTITION. 
+ORDER BY TOTAL SALES
+) AS ROW NUM
+FROM TABLE NAME
+-- Example:
+
+SELECT
+  ROW_NUMBER() OVER (
+  ORDER BY first_name
+  ) row_num,
+  first_name,
+  last_name,
+  city
+FROM
+  customers;
+
+-- PARTITION BY is an optional parameter used to create partitions (groups of rows). If it is not used, ROW_NUMBER() will treat the result set as one partition.
+-- It is important to note that ROW_NUMBER() is applied to each partition separately; so the first row in a partition is assigned ‘1’, the second row is assigned ‘2’, and so on.
+-- ORDER BY defines the order within each partition. It is a mandatory parameter because ROW_NUMBER() is order sensitive.
+-- ROW_NUMBER() can also be used for pagination, dividing the data set into discrete increments. For example, if a result set would have 100 rows, adding a WHERE clause would allow the user to selectively view only results 11-20.
+
+-- USE CASE - PAGINATION- For pagination, the function would be changed like so to only show the first 5 entries:
+
+
+WITH customers AS (
+  SELECT
+    ROW_NUMBER() OVER (
+      ORDER BY
+        first_name
+      ) row_num,
+      first_name,
+      last_name,
+      city
+  FROM
+    customers
+) SELECT
+  first_name,
+  last_name,
+  city
+FROM
+  customers
+WHERE
+  row_num > 0 AND
+  row_num <= 5;
+
+-- The ROW_NUMBER() function above could instead be modified like so to include partitions:
